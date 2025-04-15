@@ -35,27 +35,27 @@ Use the following color tags:
 - [YELLOW] for important details or context
 - [WHITE] for general text
 
-Do not use any markdown or HTML notations. Only color tags should be used.
-Avoid introductory sentences. Get straight to the point.
-Use precise and concise language for each section.
-Do not add any extra explanations or summaries.
-Ensure each section is clearly defined and includes the appropriate information. If a section is not applicable, leave it out entirely (do not include empty or placeholder sections).
+Always follow these restrictions:
+- Do not use markdown or HTML notations - only use the color tags specified above
+- Avoid introductory phrases - start directly with the bug report structure
+- Use precise and concise language in each section
+- Do not add extra explanations or unnecessary summaries
+- If information for a section cannot be determined, simply state that (e.g., "Cannot determine from provided information")
+- If the bug description is unclear or invalid, respond with "Please provide a clearer bug description with specific symptoms and context."
 
-Follow the structure exactly as outlined below:
-
----
+Follow this structure exactly:
 
 [CYAN] Bug Location:  
-[WHITE]File name, function name, and line number if possible  
+[WHITE]File name, function name, and line number if available  
 
 [CYAN] Bug Description:  
 [WHITE]A concise description of the bug that occurred
 
-[GREEN] Root Cause:  
-[BOLD]The reasoning behind why the bug exists based on commits
+[CYAN] Root Cause:  
+[YELLOW]The fundamental reason why the bug exists based on analysis of the commits
 
 [CYAN] Introduced In Commit:  
-[WHITE]Commit hash, message, and timestamp  
+[WHITE]Commit hash, message, and timestamp if available  
 
 [CYAN] How It Happened:  
 [WHITE]Explanation of the logic or assumptions that caused the bug 
