@@ -1,7 +1,19 @@
-# utils/ai_helper.py
 import os
 import requests
 import json
+
+
+def load_prompt_template():
+    """Load the bug analysis prompt template from file."""
+    try:
+        with open("prompts/analysis_prompt.txt", "r", encoding="utf-8") as f:
+            return f.read().strip()
+    except FileNotFoundError:
+        raise FileNotFoundError(
+            "Bug analysis prompt template not found. Please ensure 'prompts/bug_analysis_prompt.txt' exists."
+        )
+    except Exception as e:
+        raise Exception(f"Error loading prompt template: {str(e)}")
 
 
 def generate_bug_fix_summary(bug_desc, commits_text):
@@ -12,76 +24,17 @@ def generate_bug_fix_summary(bug_desc, commits_text):
     headers = {
         "Content-Type": "application/json",
     }
-    # Prompt for the AI model to analyze the bug description and commit diffs,
-    # and return a structured bug report using predefined color tags for CLI formatting.
-    data = {
-        "contents": [
-            {
-                "parts": [
-                    {
-                        "text": f"""You are a code analysis AI. Given the following inputs:
 
-Bug Description:
-{bug_desc}
+    # Load the prompt template and format with the actual data
+    try:
+        prompt_template = load_prompt_template()
+        formatted_prompt = prompt_template.format(
+            bug_desc=bug_desc, commits_text=commits_text
+        )
+    except Exception as e:
+        return f"Error loading prompt template: {str(e)}"
 
-Commits:
-{commits_text}
-
-Analyze the above and output a structured bug report with the following format. Include color tags where appropriate.
-
-Use the following color tags:
-- [CYAN] for headers (sections)
-- [GREEN] for fix-related information (steps, suggestions)
-- [YELLOW] for important details or context
-- [WHITE] for general text
-
-Do not use any markdown or HTML notations. Only color tags should be used.
-Avoid introductory sentences. Get straight to the point.
-Use precise and concise language for each section.
-Do not add any extra explanations or summaries.
-Ensure each section is clearly defined and includes the appropriate information. If a section is not applicable, leave it out entirely (do not include empty or placeholder sections).
-
-Follow the structure exactly as outlined below:
-
----
-
-[CYAN] Bug Location:  
-[WHITE]File name, function name, and line number if possible  
-
-[CYAN] Bug Description:  
-[WHITE]A concise description of the bug that occurred
-
-[GREEN] Root Cause:  
-[BOLD]The reasoning behind why the bug exists based on commits
-
-[CYAN] Introduced In Commit:  
-[WHITE]Commit hash, message, and timestamp  
-
-[CYAN] How It Happened:  
-[WHITE]Explanation of the logic or assumptions that caused the bug 
-
-[CYAN] Fix Steps:  
-[GREEN]1. Detailed steps to fix the bug 
-[GREEN]2. Include any verification steps 
-
-[CYAN] ✅ Suggested Patch:  
-[GREEN]Here is the suggested code fix with highlighted changes 
-[WHITE]Ensure the code follows good practices with formatting and proper comments  
-
-Original code:
-for i in range(len(items)):  # Off-by-one error in loop condition 
-    total += items[i]
-
-Suggested fix:
-for i in range(len(items) - 1):  # Adjusted loop condition to exclude the last item 
-    total += items[i]
-[CYAN]---
-"""
-                    }
-                ]
-            }
-        ]
-    }
+    data = {"contents": [{"parts": [{"text": formatted_prompt}]}]}
 
     response = requests.post(url, json=data, headers=headers)
 
