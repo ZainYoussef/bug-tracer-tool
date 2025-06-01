@@ -67,6 +67,15 @@ The AI model will analyze the bug and generate a structured report with suggeste
 - `GitPython`
 - `Requests`
 
+⚠️ Limitations:
+This tool may not perform well on large commits that contain a lot of changes or files. The current AI model has input length limitations, which means it can’t process very long commit histories or large diffs effectively.
 
+To improve accuracy and handle larger data:
+
+Use a more advanced AI model that supports longer context windows (e.g., Gemini 1.5 Pro or GPT-4 Turbo with extended context).
+
+Break down large commits into smaller chunks and analyze them individually.
+
+Or, adjust the git_helper logic to reduce the depth of recent commits fetched, minimizing the amount of data passed to the AI.
 
 
