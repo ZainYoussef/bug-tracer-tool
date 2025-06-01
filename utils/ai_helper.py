@@ -10,7 +10,7 @@ def load_prompt_template():
             return f.read().strip()
     except FileNotFoundError:
         raise FileNotFoundError(
-            "Bug analysis prompt template not found. Please ensure 'prompts/bug_analysis_prompt.txt' exists."
+            "Bug analysis prompt template not found. Please ensure 'prompts/analysis_prompt.txt' exists."
         )
     except Exception as e:
         raise Exception(f"Error loading prompt template: {str(e)}")
