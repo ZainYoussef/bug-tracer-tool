@@ -57,7 +57,7 @@ You will be prompted to:
 - Enter the path to the Git repository (local Git repository)
 - Describe the bug you're facing
 
-The AI model will analyze the bug and generate a structured report with suggested fixes.
+The AI model will analyze the bug and generate a structured report with suggested steps to fix it.
 
 ---
 
